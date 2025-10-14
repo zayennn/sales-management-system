@@ -8,6 +8,39 @@
             <h2>Sales Data</h2>
         </div>
 
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <form method="GET" action="{{ route('sales.data') }}" class="filter-form">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="status">Status:</label>
+                        <select name="status" id="status" onchange="this.form.submit()">
+                            <option value="">All Status</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="complete" {{ request('status') == 'complete' ? 'selected' : '' }}>Complete</option>
+                            <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" name="start_date" id="start_date" 
+                               value="{{ request('start_date') }}" onchange="this.form.submit()">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" name="end_date" id="end_date" 
+                               value="{{ request('end_date') }}" onchange="this.form.submit()">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <button type="button" class="btn-secondary" onclick="resetFilters()">Reset Filters</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <div class="table-container">
             <table class="data-table">
                 <thead>
@@ -17,11 +50,12 @@
                         <th>Quantity</th>
                         <th>Total Harga</th>
                         <th>Status</th>
+                        <th>Waktu</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($sales as $sale)
+                    @forelse ($sales as $sale)
                         <tr>
                             <td>#{{ $sale->id }}</td>
                             <td>{{ $sale->product->name }}</td>
@@ -37,16 +71,17 @@
                             <td>
                                 @if (Auth::user()->isPetugas() || Auth::user()->isAdmin())
                                     <select onchange="updateSale({{ $sale->id }}, {{ $sale->quantity }}, this.value)">
-                                        <option value="pending" {{ $sale->status == 'pending' ? 'selected' : '' }}>Pending
-                                        </option>
-                                        <option value="complete" {{ $sale->status == 'complete' ? 'selected' : '' }}>
-                                            Complete</option>
-                                        <option value="canceled" {{ $sale->status == 'canceled' ? 'selected' : '' }}>
-                                            Canceled</option>
+                                        <option value="pending" {{ $sale->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="complete" {{ $sale->status == 'complete' ? 'selected' : '' }}>Complete</option>
+                                        <option value="canceled" {{ $sale->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
                                     </select>
                                 @else
                                     <span class="status-{{ $sale->status }}">{{ ucfirst($sale->status) }}</span>
                                 @endif
+                            </td>
+                            <td>
+                                <small>{{ $sale->created_at->format('d M Y') }}</small><br>
+                                <small>{{ $sale->created_at->format('H:i') }}</small>
                             </td>
                             <td>
                                 @if (Auth::user()->isPetugas() || Auth::user()->isAdmin())
@@ -54,9 +89,28 @@
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center">No sales data found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
+
+            <!-- Pagination -->
+            @if ($sales->hasPages())
+                <div class="pagination">
+                    {{ $sales->links() }}
+                </div>
+            @endif
+
+            <!-- Summary -->
+            <div class="summary-section">
+                <div class="summary-card">
+                    <h4>Total Sales: {{ $sales->total() }}</h4>
+                    <p>Showing {{ $sales->firstItem() ?? 0 }} - {{ $sales->lastItem() ?? 0 }} of {{ $sales->total() }} records</p>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -77,7 +131,12 @@
             }).then(response => {
                 if (response.ok) {
                     location.reload();
+                } else {
+                    alert('Error updating sale');
                 }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Error updating sale');
             });
         }
 
@@ -86,14 +145,42 @@
                 fetch(`/sales/${saleId}`, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
                     }
                 }).then(response => {
                     if (response.ok) {
                         location.reload();
+                    } else {
+                        alert('Error deleting sale');
                     }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('Error deleting sale');
                 });
             }
         }
+
+        function resetFilters() {
+            // Reset form values
+            document.getElementById('status').value = '';
+            document.getElementById('start_date').value = '';
+            document.getElementById('end_date').value = '';
+            
+            // Submit the form to reset filters
+            document.querySelector('.filter-form').submit();
+        }
+
+        // Set max date for end_date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('start_date').max = today;
+            document.getElementById('end_date').max = today;
+
+            // Set end_date min based on start_date
+            document.getElementById('start_date').addEventListener('change', function() {
+                document.getElementById('end_date').min = this.value;
+            });
+        });
     </script>
 @endsection

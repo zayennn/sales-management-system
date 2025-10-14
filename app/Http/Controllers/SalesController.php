@@ -11,17 +11,45 @@ use Illuminate\View\View;
 
 class SalesController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $sales = Sale::with(['product', 'user'])->get();
-        return view('dashboard.sales-data', compact('sales'));
+        $query = Sale::with(['product', 'user'])
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->has('start_date') && $request->start_date != '') {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date') && $request->end_date != '') {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $sales = $query->paginate(10);
+        $statuses = ['pending', 'complete', 'canceled'];
+
+        return view('dashboard.sales-data', compact('sales', 'statuses'));
     }
 
-    public function history(): View
+    public function history(Request $request): View
     {
-        $sales = Sale::with(['product', 'user'])
+        $query = Sale::with(['product', 'user'])
             ->where('status', 'complete')
-            ->get();
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('start_date') && $request->start_date != '') {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date') && $request->end_date != '') {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $sales = $query->paginate(10);
+
         return view('dashboard.sales-history', compact('sales'));
     }
 
@@ -70,11 +98,21 @@ class SalesController extends Controller
         return redirect()->route('sales.data')->with('success', 'Sale deleted successfully!');
     }
 
-    public function exportPDF()
+    public function exportPDF(Request $request)
     {
-        $sales = Sale::with(['product', 'user'])
+        $query = Sale::with(['product', 'user'])
             ->where('status', 'complete')
-            ->get();
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('start_date') && $request->start_date != '') {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date') && $request->end_date != '') {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $sales = $query->get();
 
         $pdf = Pdf::loadView('pdf.sales-history', compact('sales'));
         return $pdf->download('sales-history-' . date('Y-m-d') . '.pdf');

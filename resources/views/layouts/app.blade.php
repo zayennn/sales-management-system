@@ -14,7 +14,8 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <div class="sidebar-header">
-                <h2>Sales System</h2>
+                {{-- <h2>Sales System</h2> --}}
+                <img src="{{ asset('images/logo.png') }}" width="100" style="display: block; margin: 0 auto;" >
             </div>
             <ul class="sidebar-nav">
                 <li><a href="{{ route('dashboard') }}"

@@ -919,3 +919,214 @@ body {
     flex-direction: column;
     gap: 10px;
 }
+
+/* Filter Section */
+.filter-section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.filter-form {
+    width: 100%;
+}
+
+.filter-row {
+    display: flex;
+    gap: 20px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 150px;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 20px 0;
+}
+
+.pagination nav {
+    display: flex;
+    gap: 10px;
+}
+
+.pagination .flex items-center {
+    display: flex;
+    align-items: center;
+}
+
+.pagination .hidden {
+    display: none;
+}
+
+.pagination .flex.items-center.justify-between {
+    display: none;
+}
+
+.pagination .flex.justify-between.flex-1 {
+    display: none;
+}
+
+.pagination .relative.z-0.inline-flex {
+    display: flex;
+    gap: 8px;
+}
+
+.pagination .relative.inline-flex.items-center {
+    display: flex;
+}
+
+.pagination a,
+.pagination span {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #667eea;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.pagination a:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.pagination span[aria-current="page"] {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.pagination span[aria-disabled="true"] {
+    color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Summary Section */
+.summary-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.summary-card {
+    text-align: center;
+}
+
+.summary-card h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.summary-card p {
+    color: #7f8c8d;
+    margin: 5px 0;
+}
+
+/* Text Center */
+.text-center {
+    text-align: center;
+    padding: 20px;
+    color: #7f8c8d;
+}
+
+/* Time Styling */
+.data-table td small {
+    color: #7f8c8d;
+    font-size: 12px;
+}
+
+/* Status Badges */
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-complete {
+    background: #d1ecf1;
+    color: #0c5460;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-canceled {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Responsive Design for Filters */
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-group select,
+    .filter-group input {
+        min-width: 100%;
+    }
+    
+    .pagination .relative.z-0.inline-flex {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-section {
+        padding: 15px;
+    }
+    
+    .pagination a,
+    .pagination span {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
