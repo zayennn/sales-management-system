@@ -171,7 +171,6 @@
                 return;
             }
 
-            // Add to cart multiple times based on quantity
             for (let i = 0; i < quantity; i++) {
                 fetch(`/cart/add/${productId}`, {
                         method: 'POST',

@@ -87,21 +87,17 @@
 @section('scripts')
 <script>
 function resetFilters() {
-    // Reset form values
     document.getElementById('start_date').value = '';
     document.getElementById('end_date').value = '';
     
-    // Submit the form to reset filters
     document.querySelector('.filter-form').submit();
 }
 
-// Set max date for end_date to today
 document.addEventListener('DOMContentLoaded', function() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('start_date').max = today;
     document.getElementById('end_date').max = today;
 
-    // Set end_date min based on start_date
     document.getElementById('start_date').addEventListener('change', function() {
         document.getElementById('end_date').min = this.value;
     });

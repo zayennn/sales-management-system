@@ -71,7 +71,6 @@ class CartManager {
                 this.cartItems.appendChild(cartItem);
             });
             
-            // Add event listeners to remove buttons
             this.cartItems.querySelectorAll('.remove-item').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const productId = e.target.dataset.productId;
@@ -107,24 +106,21 @@ class CartManager {
     
     async confirmOrderAction() {
         try {
-            // disable tombol / show loading kalau mau (optional)
             const response = await fetch('/cart/confirm', {
                 method: 'POST',
-                credentials: 'same-origin', // pastikan cookie session terkirim
+                credentials: 'same-origin',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({}) // optional, tapi buat konsistensi
+                body: JSON.stringify({})
             });
 
-            // 1) kalau server redirect (302) fetch.followed redirect -> response.redirected true
             if (response.redirected) {
                 window.location.href = response.url;
                 return;
             }
 
-            // 2) kalau status bukan OK, baca text dulu buat inspect (login page / error HTML)
             if (!response.ok) {
                 const txt = await response.text();
                 console.error('Confirm order non-OK response:', response.status, txt);
@@ -132,7 +128,6 @@ class CartManager {
                 return;
             }
 
-            // 3) cek content-type sebelum parse JSON
             const ct = response.headers.get('content-type') || '';
             if (ct.indexOf('application/json') === -1) {
                 const txt = await response.text();
@@ -141,16 +136,13 @@ class CartManager {
                 return;
             }
 
-            // 4) normal JSON flow
             const data = await response.json();
             if (data.success) {
-                // kalau controller return redirect_url, follow itu
                 if (data.redirect_url) {
                     window.location.href = data.redirect_url;
                     return;
                 }
                 alert(data.message || 'Order confirmed!');
-                // optionally refresh cart count / UI
             } else {
                 alert(data.message || 'Error confirming order. Please try again.');
             }
@@ -166,11 +158,9 @@ class CartManager {
     }
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     new CartManager();
     
-    // Close modal when clicking outside
     window.addEventListener('click', function(event) {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
@@ -181,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Global modal functions
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
 }
