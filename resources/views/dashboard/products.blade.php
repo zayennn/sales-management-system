@@ -213,7 +213,6 @@
             document.getElementById('edit_qty').value = product.qty;
             document.getElementById('edit_price').value = product.price;
 
-            // Show current image if exists
             const currentImageDiv = document.getElementById('currentImage');
             if (product.image) {
                 currentImageDiv.innerHTML = `
