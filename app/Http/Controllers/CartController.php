@@ -16,7 +16,6 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
         
-        // Check if product has sufficient stock
         if ($product->qty < 1) {
             return response()->json([
                 'success' => false,
