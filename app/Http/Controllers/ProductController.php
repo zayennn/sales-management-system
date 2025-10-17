@@ -66,7 +66,6 @@ class ProductController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
-        // Delete image if exists
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
