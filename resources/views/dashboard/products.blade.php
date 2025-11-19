@@ -59,8 +59,7 @@
             @endforeach
         </div>
     </div>
-
-    <!-- Modals tetap sama seperti sebelumnya -->
+    
     <!-- Add Product Modal -->
     <div id="addProductModal" class="modal">
         <div class="modal-content">
