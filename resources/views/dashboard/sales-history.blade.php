@@ -6,9 +6,6 @@
     <div class="sales-history-page">
         <div class="page-header">
             <h2>Sales History</h2>
-            {{-- <a href="{{ route('sales.export.pdf') }}?{{ http_build_query(request()->query()) }}" class="btn-primary">Export
-                PDF</a> --}}
-
             <a href="{{ route('sales.export.pdf') }}?{{ http_build_query(request()->query()) }}" class="btn-primary">
                 Export PDF
             </a>
