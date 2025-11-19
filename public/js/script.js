@@ -189,7 +189,6 @@ function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
 
-// Global function untuk update cart count (dipanggil dari products page)
 function updateCartCount(count) {
     const cartCount = document.getElementById('cartCount');
     if (cartCount) {
