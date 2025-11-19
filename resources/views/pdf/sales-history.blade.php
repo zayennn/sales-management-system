@@ -391,7 +391,6 @@
             </table>
         </div>
 
-        <!-- FOOTER -->
         <div class="footer">
             <div style="font-weight: bold; margin-bottom: 5px;">3VOURS - Three Flavours Experience</div>
             <div>Generated automatically on {{ \Carbon\Carbon::now()->format('d M Y - H:i') }}</div>
