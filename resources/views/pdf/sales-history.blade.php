@@ -277,7 +277,6 @@
             </div>
         </div>
 
-        <!-- SEPARATOR -->
         <div class="separator"></div>
 
         <!-- COMPANY INFO -->
