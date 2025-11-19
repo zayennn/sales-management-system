@@ -16,7 +16,6 @@ class SalesController extends Controller
         $query = Sale::with(['product', 'user'])
             ->orderBy('created_at', 'desc');
 
-        // Filter by status
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
