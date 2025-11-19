@@ -71,8 +71,7 @@
                 <h3>Shopping Cart</h3>
                 <button class="close-cart" id="closeCart">&times;</button>
             </div>
-
-            <!-- Customer Name Input -->
+            
             <div class="customer-name-section">
                 <label for="customerName">Customer Name:</label>
                 <input type="text" id="customerName" placeholder="Enter customer name" required>
