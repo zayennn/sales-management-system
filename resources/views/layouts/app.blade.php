@@ -66,7 +66,6 @@
             </div>
         </main>
 
-        <!-- Cart Sidebar -->
         <div class="cart-sidebar" id="cartSidebar">
             <div class="cart-header">
                 <h3>Shopping Cart</h3>
