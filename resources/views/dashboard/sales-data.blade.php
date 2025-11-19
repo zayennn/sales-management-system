@@ -189,7 +189,6 @@
             document.getElementById('start_date').max = today;
             document.getElementById('end_date').max = today;
 
-            // Set end_date min based on start_date
             document.getElementById('start_date').addEventListener('change', function() {
                 document.getElementById('end_date').min = this.value;
             });
