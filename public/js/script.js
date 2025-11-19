@@ -170,8 +170,7 @@ class CartManager {
 let cartManager;
 document.addEventListener('DOMContentLoaded', function() {
     cartManager = new CartManager();
-    
-    // Close modal when clicking outside
+
     window.addEventListener('click', function(event) {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
