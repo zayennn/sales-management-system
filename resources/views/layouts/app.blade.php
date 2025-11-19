@@ -34,7 +34,6 @@
             </ul>
         </nav>
 
-        <!-- Main Content -->
         <main class="main-content">
             <!-- Top Bar -->
             <header class="top-bar">
