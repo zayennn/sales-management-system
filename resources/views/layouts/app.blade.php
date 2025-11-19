@@ -13,7 +13,6 @@
     <div class="app-container">
         <nav class="sidebar">
             <div class="sidebar-header">
-                {{-- <h2>Sales System</h2> --}}
                 <img src="{{ asset('images/logo.png') }}" width="100" style="display: block; margin: 0 auto;">
             </div>
             <ul class="sidebar-nav">
@@ -79,7 +78,7 @@
             </div>
 
             <div class="cart-items" id="cartItems">
-                
+
             </div>
 
             <div class="cart-footer">
