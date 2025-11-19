@@ -99,7 +99,6 @@
         </div>
     </div>
 
-    <!-- Edit Product Modal -->
     <div id="editProductModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
