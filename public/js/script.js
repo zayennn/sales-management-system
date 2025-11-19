@@ -1,4 +1,3 @@
-// Cart functionality
 class CartManager {
     constructor() {
         this.cartToggle = document.getElementById('cartToggle');
