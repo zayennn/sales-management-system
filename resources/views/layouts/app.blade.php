@@ -11,7 +11,6 @@
 
 <body>
     <div class="app-container">
-        <!-- Sidebar -->
         <nav class="sidebar">
             <div class="sidebar-header">
                 {{-- <h2>Sales System</h2> --}}
