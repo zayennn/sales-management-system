@@ -34,7 +34,6 @@
         </nav>
 
         <main class="main-content">
-            <!-- Top Bar -->
             <header class="top-bar">
                 <div class="top-bar-left">
                     <h1>@yield('title', 'Dashboard')</h1>
