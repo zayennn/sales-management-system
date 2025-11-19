@@ -79,7 +79,9 @@
             </div>
 
             <div class="cart-items" id="cartItems">
+                
             </div>
+
             <div class="cart-footer">
                 <button class="confirm-order" id="confirmOrder">Confirm Order</button>
             </div>
