@@ -143,7 +143,6 @@
 
 @section('scripts')
     <script>
-        // Quantity management
         let quantities = {};
 
         function updateQuantity(productId, action) {
