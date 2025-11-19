@@ -20,7 +20,6 @@ class SalesController extends Controller
             $query->where('status', $request->status);
         }
 
-        // Filter by date range
         if ($request->has('start_date') && $request->start_date != '') {
             $query->whereDate('created_at', '>=', $request->start_date);
         }
