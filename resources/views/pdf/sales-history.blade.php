@@ -219,8 +219,6 @@
 
 <body>
     <div class="container">
-
-        <!-- 🔥 ABOUT 3VOURS -->
         <div class="about-3vours">
             <div class="logo-text">3VOURS</div>
             
