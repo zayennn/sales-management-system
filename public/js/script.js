@@ -118,7 +118,6 @@ class CartManager {
     async confirmOrderAction() {
         const customerName = document.getElementById('customerName');
         
-        // Pastikan elemen customerName ada
         if (!customerName) {
             alert('Customer name input not found!');
             return;
