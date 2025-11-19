@@ -25,7 +25,6 @@
             max-width: 900px;
         }
 
-        /* About Section */
         .about-3vours {
             background: #ffe9e0;
             padding: 20px;
