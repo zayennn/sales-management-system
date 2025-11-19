@@ -107,8 +107,7 @@ class SalesController extends Controller
         $query = Sale::with(['product', 'user'])
             ->where('status', 'complete')
             ->orderBy('created_at', 'desc');
-    
-        // Filter by date range for export
+
         $start_date = $request->start_date;
         $end_date = $request->end_date;
     
