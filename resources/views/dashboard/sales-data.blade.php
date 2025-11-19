@@ -8,7 +8,6 @@
             <h2>Sales Data</h2>
         </div>
 
-        <!-- Filter Section -->
         <div class="filter-section">
             <form method="GET" action="{{ route('sales.data') }}" class="filter-form">
                 <div class="filter-row">
