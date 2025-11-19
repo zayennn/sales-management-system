@@ -249,7 +249,6 @@
             <div class="title-2">3VOURS - Three Flavours Experience</div>
         </div>
 
-        <!-- PERIOD -->
         <div class="period">
             <strong>REPORT PERIOD:</strong>
             @if ($start_date && $end_date)
