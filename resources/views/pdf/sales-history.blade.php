@@ -279,7 +279,6 @@
 
         <div class="separator"></div>
 
-        <!-- COMPANY INFO -->
         <div class="report-info">
             <table>
                 <tr>
