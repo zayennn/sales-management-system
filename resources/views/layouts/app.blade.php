@@ -15,7 +15,7 @@
         <nav class="sidebar">
             <div class="sidebar-header">
                 {{-- <h2>Sales System</h2> --}}
-                <img src="{{ asset('images/logo.png') }}" width="100" style="display: block; margin: 0 auto;" >
+                <img src="{{ asset('images/logo.png') }}" width="100" style="display: block; margin: 0 auto;">
             </div>
             <ul class="sidebar-nav">
                 <li><a href="{{ route('dashboard') }}"
@@ -69,11 +69,20 @@
         </main>
 
         <!-- Cart Sidebar -->
+        <!-- Cart Sidebar -->
         <div class="cart-sidebar" id="cartSidebar">
             <div class="cart-header">
                 <h3>Shopping Cart</h3>
                 <button class="close-cart" id="closeCart">&times;</button>
             </div>
+
+            <!-- Customer Name Input -->
+            <div class="customer-name-section">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" placeholder="Enter customer name" required>
+                <small class="customer-name-error" style="color: red; display: none;">Please enter customer name</small>
+            </div>
+
             <div class="cart-items" id="cartItems">
                 <!-- Cart items will be loaded here -->
             </div>

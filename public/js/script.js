@@ -13,22 +13,35 @@ class CartManager {
     }
     
     init() {
-        this.cartToggle.addEventListener('click', () => this.openCart());
-        this.closeCart.addEventListener('click', () => this.closeCartSidebar());
-        this.cartOverlay.addEventListener('click', () => this.closeCartSidebar());
-        this.confirmOrder.addEventListener('click', () => this.confirmOrderAction());
+        // Pastikan elemen ada sebelum menambahkan event listener
+        if (this.cartToggle) {
+            this.cartToggle.addEventListener('click', () => this.openCart());
+        }
+        
+        if (this.closeCart) {
+            this.closeCart.addEventListener('click', () => this.closeCartSidebar());
+        }
+        
+        if (this.cartOverlay) {
+            this.cartOverlay.addEventListener('click', () => this.closeCartSidebar());
+        }
+        
+        if (this.confirmOrder) {
+            this.confirmOrder.addEventListener('click', () => this.confirmOrderAction());
+        }
         
         this.loadCartCount();
-        this.loadCartItems();
     }
     
     openCart() {
+        console.log('Opening cart...');
         this.cartSidebar.classList.add('active');
         this.cartOverlay.classList.add('active');
         this.loadCartItems();
     }
     
     closeCartSidebar() {
+        console.log('Closing cart...');
         this.cartSidebar.classList.remove('active');
         this.cartOverlay.classList.remove('active');
     }
@@ -37,7 +50,9 @@ class CartManager {
         try {
             const response = await fetch('/cart/get');
             const cart = await response.json();
-            this.cartCount.textContent = Object.keys(cart).length;
+            if (this.cartCount) {
+                this.cartCount.textContent = Object.keys(cart).length;
+            }
         } catch (error) {
             console.error('Error loading cart count:', error);
         }
@@ -47,6 +62,8 @@ class CartManager {
         try {
             const response = await fetch('/cart/get');
             const cart = await response.json();
+            
+            if (!this.cartItems) return;
             
             this.cartItems.innerHTML = '';
             
@@ -65,17 +82,10 @@ class CartManager {
                         <p>Total: Rp ${this.formatPrice(item.price * item.quantity)}</p>
                     </div>
                     <div class="cart-item-actions">
-                        <button class="remove-item" data-product-id="${item.id}">Remove</button>
+                        <button class="remove-item" onclick="cartManager.removeFromCart(${item.id})">Remove</button>
                     </div>
                 `;
                 this.cartItems.appendChild(cartItem);
-            });
-            
-            this.cartItems.querySelectorAll('.remove-item').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productId = e.target.dataset.productId;
-                    this.removeFromCart(productId);
-                });
             });
             
         } catch (error) {
@@ -98,69 +108,75 @@ class CartManager {
             if (data.success) {
                 this.loadCartCount();
                 this.loadCartItems();
+                alert('Item removed from cart!');
             }
         } catch (error) {
             console.error('Error removing from cart:', error);
+            alert('Error removing item from cart!');
         }
     }
     
     async confirmOrderAction() {
+        const customerName = document.getElementById('customerName');
+        
+        // Pastikan elemen customerName ada
+        if (!customerName) {
+            alert('Customer name input not found!');
+            return;
+        }
+        
+        const customerNameValue = customerName.value.trim();
+        const errorElement = document.querySelector('.customer-name-error');
+        
+        // Validate customer name
+        if (!customerNameValue) {
+            if (errorElement) {
+                errorElement.style.display = 'block';
+                errorElement.textContent = 'Please enter customer name';
+            }
+            return;
+        }
+        
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+
         try {
+            // Create form data
+            const formData = new FormData();
+            formData.append('customer_name', customerNameValue);
+            formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
             const response = await fetch('/cart/confirm', {
                 method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({})
+                body: formData
             });
-
-            if (response.redirected) {
-                window.location.href = response.url;
-                return;
-            }
-
-            if (!response.ok) {
-                const txt = await response.text();
-                console.error('Confirm order non-OK response:', response.status, txt);
-                alert('Error confirming order. Server returned status ' + response.status + '. Check console for details.');
-                return;
-            }
-
-            const ct = response.headers.get('content-type') || '';
-            if (ct.indexOf('application/json') === -1) {
-                const txt = await response.text();
-                console.error('Confirm order unexpected content-type:', ct, txt);
-                alert('Error confirming order. Unexpected server response. Check console.');
-                return;
-            }
-
-            const data = await response.json();
-            if (data.success) {
-                if (data.redirect_url) {
-                    window.location.href = data.redirect_url;
-                    return;
-                }
-                alert(data.message || 'Order confirmed!');
+            
+            if (response.ok) {
+                this.closeCartSidebar();
+                this.loadCartCount();
+                window.location.href = '/sales/data';
             } else {
-                alert(data.message || 'Error confirming order. Please try again.');
+                const result = await response.json();
+                alert(result.message || 'Error confirming order');
             }
-        } catch (err) {
-            console.error('Confirm order fetch error:', err);
-            alert('Error confirming order. Check console for details.');
+        } catch (error) {
+            console.error('Error confirming order:', error);
+            alert('Error confirming order. Please try again.');
         }
     }
-
     
     formatPrice(price) {
         return new Intl.NumberFormat('id-ID').format(price);
     }
 }
 
+// Initialize when DOM is loaded
+let cartManager;
 document.addEventListener('DOMContentLoaded', function() {
-    new CartManager();
+    cartManager = new CartManager();
     
+    // Close modal when clicking outside
     window.addEventListener('click', function(event) {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
@@ -171,10 +187,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Global modal functions
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
+}
+
+// Global function untuk update cart count (dipanggil dari products page)
+function updateCartCount(count) {
+    const cartCount = document.getElementById('cartCount');
+    if (cartCount) {
+        cartCount.textContent = count;
+    }
 }

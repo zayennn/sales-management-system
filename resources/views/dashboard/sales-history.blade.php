@@ -6,8 +6,12 @@
     <div class="sales-history-page">
         <div class="page-header">
             <h2>Sales History</h2>
-            <a href="{{ route('sales.export.pdf') }}?{{ http_build_query(request()->query()) }}" class="btn-primary">Export
-                PDF</a>
+            {{-- <a href="{{ route('sales.export.pdf') }}?{{ http_build_query(request()->query()) }}" class="btn-primary">Export
+                PDF</a> --}}
+
+            <a href="{{ route('sales.export.pdf') }}?{{ http_build_query(request()->query()) }}" class="btn-primary">
+                Export PDF
+            </a>
         </div>
 
         <!-- Filter Section -->
@@ -38,6 +42,7 @@
                 <thead>
                     <tr>
                         <th>ID Transaksi</th>
+                        <th>Customer Name</th>
                         <th>Produk</th>
                         <th>Quantity</th>
                         <th>Total</th>
@@ -49,6 +54,10 @@
                     @forelse($sales as $sale)
                         <tr>
                             <td>#{{ $sale->id }}</td>
+                            <td>
+                                <strong>{{ $sale->customer_name ?? 'N/A' }}</strong>
+                                <br><small>By: {{ $sale->user->name }}</small>
+                            </td>
                             <td>{{ $sale->product->name }}</td>
                             <td>{{ $sale->quantity }}</td>
                             <td>Rp {{ number_format($sale->total_price, 0, ',', '.') }}</td>
@@ -60,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">No sales history found.</td>
+                            <td colspan="7" class="text-center">No sales history found.</td>
                         </tr>
                     @endforelse
                 </tbody>

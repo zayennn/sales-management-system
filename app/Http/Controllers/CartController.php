@@ -92,37 +92,46 @@ class CartController extends Controller
         return response()->json($cart);
     }
 
-    public function confirmOrder(Request $request)
+    public function confirmOrder(Request $request): RedirectResponse
     {
         $cart = session()->get('cart', []);
+    
         if (empty($cart)) {
-            return response()->json(['success' => false, 'message' => 'Cart is empty!'], 400);
+            return redirect()->back()->with('error', 'Cart is empty!');
         }
-
-        DB::beginTransaction();
-        try {
-            foreach ($cart as $item) {
-                $product = Product::find($item['id']);
-                if (!$product || $product->qty < $item['quantity']) {
-                    DB::rollBack();
-                    return response()->json(['success' => false, 'message' => "Insufficient stock for {$item['id']}"], 400);
+    
+        // Validate customer name
+        $request->validate([
+            'customer_name' => 'required|string|max:255'
+        ]);
+    
+        foreach ($cart as $item) {
+            $product = Product::find($item['id']);
+            
+            if ($product) {
+                // Check stock availability
+                if ($product->qty < $item['quantity']) {
+                    return redirect()->back()->with('error', "Insufficient stock for {$product->name}");
                 }
+    
+                // Create sale record with customer name
                 Sale::create([
                     'user_id' => auth()->id(),
+                    'customer_name' => $request->customer_name, // Tambahkan customer name
                     'product_id' => $product->id,
                     'quantity' => $item['quantity'],
-                    'total_price' => $product->price * $item['quantity'],
+                    'total_price' => $item['price'] * $item['quantity'],
                     'status' => 'pending',
                 ]);
+    
+                // Update product stock
                 $product->decrement('qty', $item['quantity']);
             }
-            DB::commit();
-            session()->forget('cart');
-            return response()->json(['success' => true, 'message' => 'Order confirmed!', 'redirect_url' => route('sales.data')]);
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            Log::error('Confirm order error: '.$e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Server error while confirming order'], 500);
         }
+    
+        // Clear cart
+        session()->forget('cart');
+    
+        return redirect()->route('sales.data')->with('success', 'Order confirmed successfully!');
     }
 }

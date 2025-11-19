@@ -9,33 +9,41 @@
         </div>
 
         <!-- Filter Section -->
+        <!-- Filter Section -->
         <div class="filter-section">
             <form method="GET" action="{{ route('sales.data') }}" class="filter-form">
                 <div class="filter-row">
                     <div class="filter-group">
+                        <label for="customer_name">Customer Name:</label>
+                        <input type="text" name="customer_name" id="customer_name" value="{{ request('customer_name') }}"
+                            placeholder="Search customer...">
+                    </div>
+
+                    <div class="filter-group">
                         <label for="status">Status:</label>
-                        <select name="status" id="status" onchange="this.form.submit()">
+                        <select name="status" id="status">
                             <option value="">All Status</option>
                             <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="complete" {{ request('status') == 'complete' ? 'selected' : '' }}>Complete</option>
-                            <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                            <option value="complete" {{ request('status') == 'complete' ? 'selected' : '' }}>Complete
+                            </option>
+                            <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>Canceled
+                            </option>
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label for="start_date">Start Date:</label>
-                        <input type="date" name="start_date" id="start_date" 
-                               value="{{ request('start_date') }}" onchange="this.form.submit()">
+                        <input type="date" name="start_date" id="start_date" value="{{ request('start_date') }}">
                     </div>
-                    
+
                     <div class="filter-group">
                         <label for="end_date">End Date:</label>
-                        <input type="date" name="end_date" id="end_date" 
-                               value="{{ request('end_date') }}" onchange="this.form.submit()">
+                        <input type="date" name="end_date" id="end_date" value="{{ request('end_date') }}">
                     </div>
-                    
+
                     <div class="filter-group">
-                        <button type="button" class="btn-secondary" onclick="resetFilters()">Reset Filters</button>
+                        <button type="submit" class="btn-primary">Apply Filters</button>
+                        <button type="button" class="btn-secondary" onclick="resetFilters()">Reset</button>
                     </div>
                 </div>
             </form>
@@ -46,6 +54,7 @@
                 <thead>
                     <tr>
                         <th>ID Transaksi</th>
+                        <th>Customer Name</th>
                         <th>Nama Produk</th>
                         <th>Quantity</th>
                         <th>Total Harga</th>
@@ -58,6 +67,12 @@
                     @forelse ($sales as $sale)
                         <tr>
                             <td>#{{ $sale->id }}</td>
+                            <td>
+                                <strong>{{ $sale->customer_name ?? 'N/A' }}</strong>
+                                @if (Auth::user()->isPetugas() || Auth::user()->isAdmin())
+                                    <br><small>By: {{ $sale->user->name }}</small>
+                                @endif
+                            </td>
                             <td>{{ $sale->product->name }}</td>
                             <td>
                                 @if (Auth::user()->isPetugas() || Auth::user()->isAdmin())
@@ -71,9 +86,12 @@
                             <td>
                                 @if (Auth::user()->isPetugas() || Auth::user()->isAdmin())
                                     <select onchange="updateSale({{ $sale->id }}, {{ $sale->quantity }}, this.value)">
-                                        <option value="pending" {{ $sale->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="complete" {{ $sale->status == 'complete' ? 'selected' : '' }}>Complete</option>
-                                        <option value="canceled" {{ $sale->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                                        <option value="pending" {{ $sale->status == 'pending' ? 'selected' : '' }}>Pending
+                                        </option>
+                                        <option value="complete" {{ $sale->status == 'complete' ? 'selected' : '' }}>
+                                            Complete</option>
+                                        <option value="canceled" {{ $sale->status == 'canceled' ? 'selected' : '' }}>
+                                            Canceled</option>
                                     </select>
                                 @else
                                     <span class="status-{{ $sale->status }}">{{ ucfirst($sale->status) }}</span>
@@ -91,7 +109,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center">No sales data found.</td>
+                            <td colspan="8" class="text-center">No sales data found.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -108,7 +126,8 @@
             <div class="summary-section">
                 <div class="summary-card">
                     <h4>Total Sales: {{ $sales->total() }}</h4>
-                    <p>Showing {{ $sales->firstItem() ?? 0 }} - {{ $sales->lastItem() ?? 0 }} of {{ $sales->total() }} records</p>
+                    <p>Showing {{ $sales->firstItem() ?? 0 }} - {{ $sales->lastItem() ?? 0 }} of {{ $sales->total() }}
+                        records</p>
                 </div>
             </div>
         </div>
@@ -166,7 +185,7 @@
             document.getElementById('status').value = '';
             document.getElementById('start_date').value = '';
             document.getElementById('end_date').value = '';
-            
+
             // Submit the form to reset filters
             document.querySelector('.filter-form').submit();
         }

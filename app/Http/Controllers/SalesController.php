@@ -16,16 +16,23 @@ class SalesController extends Controller
         $query = Sale::with(['product', 'user'])
             ->orderBy('created_at', 'desc');
 
+        // Filter by status
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
 
+        // Filter by date range
         if ($request->has('start_date') && $request->start_date != '') {
             $query->whereDate('created_at', '>=', $request->start_date);
         }
 
         if ($request->has('end_date') && $request->end_date != '') {
             $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        // Filter by customer name
+        if ($request->has('customer_name') && $request->customer_name != '') {
+            $query->where('customer_name', 'like', '%' . $request->customer_name . '%');
         }
 
         $sales = $query->paginate(10);
@@ -103,18 +110,26 @@ class SalesController extends Controller
         $query = Sale::with(['product', 'user'])
             ->where('status', 'complete')
             ->orderBy('created_at', 'desc');
-
-        if ($request->has('start_date') && $request->start_date != '') {
-            $query->whereDate('created_at', '>=', $request->start_date);
+    
+        // Filter by date range for export
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+    
+        if ($start_date && $start_date != '') {
+            $query->whereDate('created_at', '>=', $start_date);
         }
-
-        if ($request->has('end_date') && $request->end_date != '') {
-            $query->whereDate('created_at', '<=', $request->end_date);
+    
+        if ($end_date && $end_date != '') {
+            $query->whereDate('created_at', '<=', $end_date);
         }
-
+    
         $sales = $query->get();
-
-        $pdf = Pdf::loadView('pdf.sales-history', compact('sales'));
-        return $pdf->download('sales-history-' . date('Y-m-d') . '.pdf');
+    
+        // Format dates for display
+        $formatted_start_date = $start_date ? \Carbon\Carbon::parse($start_date)->format('d M Y') : null;
+        $formatted_end_date = $end_date ? \Carbon\Carbon::parse($end_date)->format('d M Y') : null;
+    
+        $pdf = Pdf::loadView('pdf.sales-history', compact('sales', 'start_date', 'end_date', 'formatted_start_date', 'formatted_end_date'));
+        return $pdf->download('sales-report-' . date('Y-m-d') . '.pdf');
     }
 }

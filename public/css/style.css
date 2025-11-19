@@ -1130,3 +1130,46 @@ body {
         font-size: 12px;
     }
 }
+
+
+/* Customer Name Section in Cart */
+.customer-name-section {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e1e5e9;
+    background: #f8f9fa;
+}
+
+.customer-name-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.customer-name-section input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.customer-name-section input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.customer-name-error {
+    margin-top: 5px;
+    display: none;
+}
+
+/* Customer name in tables */
+.data-table td strong {
+    color: #2c3e50;
+}
+
+.data-table td small {
+    color: #7f8c8d;
+    font-size: 11px;
+}
