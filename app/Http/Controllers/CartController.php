@@ -112,7 +112,6 @@ class CartController extends Controller
                     return redirect()->back()->with('error', "Insufficient stock for {$product->name}");
                 }
     
-                // Create sale record with customer name
                 Sale::create([
                     'user_id' => auth()->id(),
                     'customer_name' => $request->customer_name, // Tambahkan customer name
