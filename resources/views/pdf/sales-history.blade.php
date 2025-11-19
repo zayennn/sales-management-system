@@ -368,7 +368,6 @@
 
         <div class="separator"></div>
 
-        <!-- TRANSACTION SUMMARY -->
         <div class="report-info">
             <table>
                 <tr>
