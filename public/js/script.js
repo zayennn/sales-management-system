@@ -13,7 +13,6 @@ class CartManager {
     }
     
     init() {
-        // Pastikan elemen ada sebelum menambahkan event listener
         if (this.cartToggle) {
             this.cartToggle.addEventListener('click', () => this.openCart());
         }
