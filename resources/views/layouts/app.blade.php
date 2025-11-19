@@ -71,7 +71,7 @@
                 <h3>Shopping Cart</h3>
                 <button class="close-cart" id="closeCart">&times;</button>
             </div>
-            
+
             <div class="customer-name-section">
                 <label for="customerName">Customer Name:</label>
                 <input type="text" id="customerName" placeholder="Enter customer name" required>
@@ -79,7 +79,6 @@
             </div>
 
             <div class="cart-items" id="cartItems">
-                <!-- Cart items will be loaded here -->
             </div>
             <div class="cart-footer">
                 <button class="confirm-order" id="confirmOrder">Confirm Order</button>
