@@ -361,7 +361,6 @@
             </tbody>
         </table>
 
-        <!-- GRAND TOTAL -->
         <div class="total-highlight">
             GRAND TOTAL REVENUE: Rp {{ number_format($sales->sum('total_price'), 0, ',', '.') }} 
             | {{ $sales->count() }} TRANSACTIONS | {{ $sales->sum('quantity') }} ITEMS SOLD
