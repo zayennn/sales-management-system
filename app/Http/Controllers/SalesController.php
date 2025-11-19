@@ -28,7 +28,6 @@ class SalesController extends Controller
             $query->whereDate('created_at', '<=', $request->end_date);
         }
 
-        // Filter by customer name
         if ($request->has('customer_name') && $request->customer_name != '') {
             $query->where('customer_name', 'like', '%' . $request->customer_name . '%');
         }
