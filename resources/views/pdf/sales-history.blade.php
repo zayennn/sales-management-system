@@ -309,7 +309,6 @@
             </table>
         </div>
 
-        <!-- SALES TABLE -->
         <h3 style="color: #d65839; border-bottom: 2px solid #ffccb9; padding-bottom: 8px;">
             📊 SALES TRANSACTION DETAILS
         </h3>
