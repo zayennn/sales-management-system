@@ -108,7 +108,6 @@ class CartController extends Controller
             $product = Product::find($item['id']);
             
             if ($product) {
-                // Check stock availability
                 if ($product->qty < $item['quantity']) {
                     return redirect()->back()->with('error', "Insufficient stock for {$product->name}");
                 }
