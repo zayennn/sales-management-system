@@ -120,8 +120,7 @@ class SalesController extends Controller
         }
     
         $sales = $query->get();
-    
-        // Format dates for display
+
         $formatted_start_date = $start_date ? \Carbon\Carbon::parse($start_date)->format('d M Y') : null;
         $formatted_end_date = $end_date ? \Carbon\Carbon::parse($end_date)->format('d M Y') : null;
     
