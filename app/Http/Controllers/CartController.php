@@ -100,7 +100,6 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Cart is empty!');
         }
     
-        // Validate customer name
         $request->validate([
             'customer_name' => 'required|string|max:255'
         ]);
