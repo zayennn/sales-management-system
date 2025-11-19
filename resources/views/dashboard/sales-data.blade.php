@@ -177,7 +177,6 @@
         }
 
         function resetFilters() {
-            // Reset form values
             document.getElementById('status').value = '';
             document.getElementById('start_date').value = '';
             document.getElementById('end_date').value = '';
