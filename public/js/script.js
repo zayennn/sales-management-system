@@ -167,7 +167,6 @@ class CartManager {
     }
 }
 
-// Initialize when DOM is loaded
 let cartManager;
 document.addEventListener('DOMContentLoaded', function() {
     cartManager = new CartManager();
