@@ -184,7 +184,6 @@
             document.querySelector('.filter-form').submit();
         }
 
-        // Set max date for end_date to today
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('start_date').max = today;
