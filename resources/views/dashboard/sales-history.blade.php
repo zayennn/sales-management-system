@@ -71,7 +71,6 @@
                 </tbody>
             </table>
 
-            <!-- Pagination -->
             @if ($sales->hasPages())
                 <div class="pagination">
                     {{ $sales->links() }}
