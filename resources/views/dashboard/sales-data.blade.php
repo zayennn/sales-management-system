@@ -181,7 +181,6 @@
             document.getElementById('start_date').value = '';
             document.getElementById('end_date').value = '';
 
-            // Submit the form to reset filters
             document.querySelector('.filter-form').submit();
         }
 
