@@ -366,7 +366,6 @@
             | {{ $sales->count() }} TRANSACTIONS | {{ $sales->sum('quantity') }} ITEMS SOLD
         </div>
 
-        <!-- SEPARATOR -->
         <div class="separator"></div>
 
         <!-- TRANSACTION SUMMARY -->
