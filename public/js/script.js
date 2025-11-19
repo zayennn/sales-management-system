@@ -125,8 +125,7 @@ class CartManager {
         
         const customerNameValue = customerName.value.trim();
         const errorElement = document.querySelector('.customer-name-error');
-        
-        // Validate customer name
+
         if (!customerNameValue) {
             if (errorElement) {
                 errorElement.style.display = 'block';
