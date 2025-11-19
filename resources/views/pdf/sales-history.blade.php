@@ -244,7 +244,6 @@
             </p>
         </div>
 
-        <!-- HEADER -->
         <div class="header">
             <div class="title">SALES REPORT</div>
             <div class="title-2">3VOURS - Three Flavours Experience</div>
