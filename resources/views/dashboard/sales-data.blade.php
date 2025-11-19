@@ -9,7 +9,6 @@
         </div>
 
         <!-- Filter Section -->
-        <!-- Filter Section -->
         <div class="filter-section">
             <form method="GET" action="{{ route('sales.data') }}" class="filter-form">
                 <div class="filter-row">
