@@ -181,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Global modal functions
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
 }
