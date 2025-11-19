@@ -139,7 +139,6 @@ class CartManager {
         }
 
         try {
-            // Create form data
             const formData = new FormData();
             formData.append('customer_name', customerNameValue);
             formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
