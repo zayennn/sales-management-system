@@ -119,7 +119,6 @@
                 </div>
             @endif
 
-            <!-- Summary -->
             <div class="summary-section">
                 <div class="summary-card">
                     <h4>Total Sales: {{ $sales->total() }}</h4>
