@@ -258,7 +258,6 @@
             @endif
         </div>
 
-        <!-- SUMMARY CARDS -->
         <div class="summary-grid">
             <div class="summary-card">
                 <h3>TOTAL TRANSACTIONS</h3>
