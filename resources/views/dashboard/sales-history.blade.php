@@ -11,7 +11,6 @@
             </a>
         </div>
 
-        <!-- Filter Section -->
         <div class="filter-section">
             <form method="GET" action="{{ route('sales.history') }}" class="filter-form">
                 <div class="filter-row">
